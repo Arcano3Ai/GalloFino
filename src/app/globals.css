@@ -1,26 +1,277 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Tailwind v4 Theme Config ─────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-black:        #0B0B0B;
+  --color-dark:         #111111;
+  --color-darkgray:     #1A1A1A;
+  --color-cream:        #F1E5CC;
+  --color-cream-muted:  #C8B99A;
+  --color-gold:         #B89245;
+  --color-gold-light:   #D4AA6A;
+  --color-gold-dark:    #8A6B30;
+  --color-wine:         #681B1B;
+  --color-wine-light:   #8B2A2A;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Animations */
+  --animate-fade-up:     fadeUp 0.6s ease forwards;
+  --animate-fade-in:     fadeIn 0.8s ease forwards;
+  --animate-pulse-gold:  pulse-gold 2s infinite;
+  --animate-rooster-bob: rooster-bob 3s ease-in-out infinite;
+  --animate-shimmer:     shimmer 2s linear infinite;
+
+  /* Keyframes */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(184, 146, 69, 0.4); }
+    50%       { box-shadow: 0 0 0 12px rgba(184, 146, 69, 0); }
+  }
+  @keyframes rooster-bob {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 }
 
+/* ─── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── Light Mode (Versión Clara — Texto Oscuro de Alta Legibilidad) ── */
+html.light-theme {
+  --color-black:        #F4EFE6;
+  --color-dark:         #FFFFFF;
+  --color-darkgray:     #E8E1D5;
+  --color-cream:        #0E0C0A; /* Negro azabache para títulos y texto principal */
+  --color-cream-muted:  #2D261F; /* Café carbón oscuro para descripciones */
+  --color-gold:         #7A5210; /* Bronce dorado de alto contraste */
+  --color-gold-light:   #9C7225;
+  --color-gold-dark:    #4D3308;
+  --color-wine:         #8B2A2A;
+  --color-wine-light:   #A83838;
+}
+html.light-theme body {
+  background-color: var(--color-black);
+  color: var(--color-cream);
+}
+html.light-theme .text-cream {
+  color: #0E0C0A !important;
+}
+html.light-theme .text-cream-muted {
+  color: #2D261F !important;
+}
+html.light-theme .text-gold {
+  color: #7A5210 !important;
+}
+html.light-theme .border-white\/5,
+html.light-theme .border-white\/10,
+html.light-theme .border-white\/15 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+html.light-theme .bg-black\/30,
+html.light-theme .bg-black\/40 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-black); }
+::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: 3px; }
+
+/* ─── Selection ────────────────────────────────────────────── */
+::selection { background-color: var(--color-gold); color: var(--color-black); }
+
+/* ─── Custom Utilities ─────────────────────────────────────── */
+@layer utilities {
+  .font-brand   { font-family: var(--font-cinzel), serif !important; }
+  .font-display { font-family: var(--font-playfair), serif !important; }
+
+  .text-cream       { color: var(--color-cream) !important; }
+  .text-cream-muted { color: var(--color-cream-muted) !important; }
+  .text-gold        { color: var(--color-gold) !important; }
+  .text-wine        { color: var(--color-wine) !important; }
+  .text-wine-light  { color: var(--color-wine-light) !important; }
+
+  .bg-dark          { background-color: var(--color-dark) !important; }
+  .bg-darkgray      { background-color: var(--color-darkgray) !important; }
+  .bg-gold          { background-color: var(--color-gold) !important; }
+  .bg-wine          { background-color: var(--color-wine) !important; }
+
+  .border-gold      { border-color: var(--color-gold) !important; }
+  .border-wine      { border-color: var(--color-wine) !important; }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #B89245 0%, #D4AA6A 50%, #8A6B30 100%);
+  }
+
+  .animate-rooster { animation: rooster-bob 3s ease-in-out infinite; }
+  .animate-pulse-gold { animation: pulse-gold 2s infinite; }
+
+  .glow-gold { box-shadow: 0 0 20px rgba(184, 146, 69, 0.3); }
+  .glow-gold-hover:hover { box-shadow: 0 0 30px rgba(184, 146, 69, 0.5) !important; }
+}
+
+/* ─── Component Styles ─────────────────────────────────────── */
+@layer components {
+  /* Section label */
+  .section-label {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    display: block;
+  }
+
+  /* Gold divider */
+  .gold-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    border: none;
+    width: 6rem;
+    margin: 1.5rem 0;
+  }
+
+  /* Ornament line */
+  .ornament-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-gold);
+  }
+  .ornament-line::before,
+  .ornament-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  }
+
+  /* Card dark */
+  .card-dark {
+    background-color: var(--color-dark);
+    border: 1px solid rgba(184, 146, 69, 0.15);
+    transition: all 0.3s ease;
+  }
+  .card-dark:hover {
+    border-color: rgba(184, 146, 69, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Primary button */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: var(--color-gold);
+    color: var(--color-black);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: var(--color-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(184, 146, 69, 0.4);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* Outline button */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--color-cream);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(241, 229, 204, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .btn-outline:hover {
+    border-color: var(--color-cream);
+    background: rgba(241, 229, 204, 0.08);
+  }
+
+  /* WhatsApp button */
+  .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: #25D366;
+    color: white;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .btn-whatsapp:hover {
+    background: #20BD5A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35);
+  }
+
+  /* Mobile CTA Bar */
+  .mobile-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--color-dark);
+    border-top: 1px solid rgba(184, 146, 69, 0.3);
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  @media (max-width: 768px) {
+    .mobile-cta-bar { display: flex; }
+  }
 }
