@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { businessConfig } from "@/config/business";
 import { MerchCategory, MerchItem } from "@/types";
 import { getWhatsAppUrl } from "@/components/ui/WhatsAppButton";
 import { useLanguage } from "@/context/LanguageContext";
+import { ProductMockup } from "@/components/ui/ProductMockup";
 
 export function Merch() {
   const [activeCategory, setActiveCategory] = useState<MerchCategory>("todos");
@@ -80,7 +80,7 @@ export function Merch() {
           ))}
         </div>
 
-        {/* Realistic Products Grid */}
+        {/* Products Grid with 100% Accurate Product Mockups */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredItems.map((item, index) => {
             const itemT = t.merch.items[item.id as keyof typeof t.merch.items];
@@ -96,39 +96,28 @@ export function Merch() {
                   hover:border-gold transition-all duration-500 flex flex-col justify-between
                   shadow-[0_15px_35px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_45px_rgba(184,146,69,0.25)]
                   ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}
+                  ${item.featured ? "ring-1 ring-gold/30" : ""}
                 `}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                {/* Realistic Product Packaging Mockup Frame */}
+                {/* 3D Product Packaging Mockup */}
                 <div>
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
-                    <Image
-                      src={item.image}
-                      alt={itemT?.name || "Gallo Fino Product"}
-                      fill
-                      className={`transition-transform duration-700 group-hover:scale-108 filter brightness-95 group-hover:brightness-105 ${item.image.includes("Media2") ? "object-contain p-6 bg-[#0E0D0B]" : "object-cover"}`}
+                    <ProductMockup
+                      id={item.id}
+                      name={itemT?.name || "Product"}
+                      category={item.category}
+                      badge={item.badge}
                     />
-                    
-                    {/* Realistic Studio Lighting Vignette & Glare Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-85 group-hover:opacity-50 transition-opacity" />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
 
                     {/* Badge Overlay */}
                     {item.badge && (
-                      <div className="absolute top-3 left-3 z-10">
-                        <span className="bg-gold text-black text-[9px] font-black px-2.5 py-1 tracking-widest uppercase shadow-lg">
+                      <div className="absolute top-3 left-3 z-20">
+                        <span className="bg-gold text-black text-[9px] font-black px-2.5 py-1 tracking-widest uppercase shadow-md">
                           {item.badge}
                         </span>
                       </div>
                     )}
-
-                    {/* Product Brand Seal Tag */}
-                    <div className="absolute top-3 right-3 z-10 bg-black/80 backdrop-blur-md border border-gold/40 px-2 py-1 flex items-center gap-1.5">
-                      <span className="text-gold text-xs">{item.icon}</span>
-                      <span className="text-[9px] font-mono font-bold text-cream tracking-widest uppercase">
-                        GALLO FINO
-                      </span>
-                    </div>
 
                     {/* Quick View Hover Button */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 bg-black/40">
@@ -144,11 +133,12 @@ export function Merch() {
                   {/* Content */}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-mono font-bold text-gold tracking-widest uppercase">
-                        {t.merch.categories[item.category]}
+                      <span className="text-[10px] font-mono font-bold text-gold tracking-widest uppercase flex items-center gap-1">
+                        <span>{item.icon}</span>
+                        <span>{t.merch.categories[item.category]}</span>
                       </span>
                       <span className="text-[10px] text-cream-muted font-mono uppercase">
-                        ORIGINAL BRAND
+                        GALLO FINO MERCH
                       </span>
                     </div>
 
@@ -182,7 +172,7 @@ export function Merch() {
                     {t.merch.orderViaWa}
                   </a>
                   <button
-                    onClick={() => setSelectedProduct(null)}
+                    onClick={() => setSelectedProduct(item)}
                     aria-label="Ver detalles del producto"
                     className="p-3 border border-gold/20 text-cream-muted hover:border-gold hover:text-gold transition-colors text-xs"
                   >
@@ -220,14 +210,13 @@ export function Merch() {
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-                <div className="relative aspect-square w-full border border-gold/40 overflow-hidden bg-black">
-                  <Image
-                    src={selectedProduct.image}
-                    alt={itemT?.name || "Product"}
-                    fill
-                    className={`filter brightness-95 ${selectedProduct.image.includes("Media2") ? "object-contain p-6 bg-[#0E0D0B]" : "object-cover"}`}
+                <div className="relative aspect-square w-full border border-gold/40 overflow-hidden bg-black flex items-center justify-center">
+                  <ProductMockup
+                    id={selectedProduct.id}
+                    name={itemT?.name || "Product"}
+                    category={selectedProduct.category}
+                    badge={selectedProduct.badge}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                 </div>
 
                 <div>
