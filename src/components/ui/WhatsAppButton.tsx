@@ -3,6 +3,7 @@
 import { businessConfig } from "@/config/business";
 
 const RAW_GITHUB_BASE = "https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public";
+const RAW_LOGO_URL = "https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public/assets/logo.jpeg";
 const SITE_BASE = "https://gallo-fino-barber.vercel.app";
 
 export function getWhatsAppUrl(text: string, phone: string = businessConfig.whatsapp): string {
@@ -25,6 +26,8 @@ export function getServiceWhatsAppUrl(
   const shareLink = `${SITE_BASE}/servicios/${serviceId}`;
 
   const message = [
+    RAW_LOGO_URL,
+    ``,
     `💈 *GALLO FINO BARBER* 💈`,
     `✂ *Servicio:* ${serviceName}`,
     `💰 *Precio:* ${price} | ⏱ *Duración:* ${duration}`,
@@ -32,7 +35,7 @@ export function getServiceWhatsAppUrl(
     `📝 *Descripción:*`,
     `${description}`,
     ``,
-    `📸 *Imagen del servicio:*`,
+    `📸 *Foto del Servicio:*`,
     `${imageUrl}`,
     ``,
     `🌐 *Ver y agendar online:*`,
@@ -56,6 +59,8 @@ export function getMerchWhatsAppUrl(
   const shareLink = `${SITE_BASE}/tienda/${itemId}`;
 
   const message = [
+    RAW_LOGO_URL,
+    ``,
     `💈 *GALLO FINO BARBER — MERCH OFICIAL* 💈`,
     `🧢 *Producto:* ${itemName}`,
     `💰 *Precio:* ${price}`,
@@ -63,7 +68,7 @@ export function getMerchWhatsAppUrl(
     `📝 *Detalles del producto:*`,
     `${description}`,
     ``,
-    `📸 *Imagen del producto:*`,
+    `📸 *Foto del Producto:*`,
     `${imageUrl}`,
     ``,
     `🌐 *Ver producto en tienda:*`,
@@ -117,7 +122,7 @@ function WhatsAppLogoIcon({ className = "w-5 h-5" }: { className?: string }) {
 }
 
 export function WhatsAppButton({
-  message = "Hola, Gallo Fino Barber. Quiero agendar una cita. ¿Qué horarios tienen disponibles?",
+  message = `${RAW_LOGO_URL}\n\n💈 *GALLO FINO BARBER* 💈\nHola, Gallo Fino Barber. Quiero agendar una cita. ¿Qué horarios tienen disponibles?`,
   className = "",
   variant = "floating",
   label = "Agenda por WhatsApp",
