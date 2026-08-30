@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       {
         url: businessConfig.seo.ogImage,
         width: 1200,
-        height: 630,
+        height: 655,
         alt: businessConfig.name,
         type: "image/jpeg",
       },
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/Media2.png",
     shortcut: "/assets/Media2.png",
-    apple: "/assets/og-image.jpg",
+    apple: "/assets/logo.jpeg",
   },
 };
 
@@ -128,7 +128,7 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#0B0B0B" />
         <link rel="icon" href="/assets/Media2.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/assets/og-image.jpg" />
+        <link rel="apple-touch-icon" href="/assets/logo.jpeg" />
       </head>
       <body className="bg-black text-cream antialiased">
         <ThemeProvider>

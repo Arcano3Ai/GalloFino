@@ -215,7 +215,7 @@ export const businessConfig = {
       "Gallo Fino Barber. Puro porte, puro estilo. Cortes, barba y grooming masculino premium en Monterrey, NL. Agenda tu cita por WhatsApp.",
     keywords:
       "barberia monterrey, cortes de cabello monterrey, barba monterrey, gallo fino barber, barbershop monterrey, fade monterrey",
-    ogImage: "/assets/og-image.jpg",
+    ogImage: "/assets/logo.jpeg",
   },
 } as const;
 
