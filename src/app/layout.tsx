@@ -31,6 +31,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
   ? `https://${process.env.VERCEL_URL}`
   : "https://gallo-fino-barber.vercel.app";
 
+const rawGithubLogo = "https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public/assets/logo.jpeg";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: businessConfig.seo.title,
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: businessConfig.seo.ogImage,
+        url: rawGithubLogo,
         width: 1200,
         height: 655,
         alt: businessConfig.name,
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: businessConfig.seo.title,
     description: businessConfig.seo.description,
-    images: [businessConfig.seo.ogImage],
+    images: [rawGithubLogo],
   },
   robots: {
     index: true,
