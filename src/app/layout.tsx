@@ -23,7 +23,16 @@ const cinzel = Cinzel_Decorative({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "https://gallo-fino-barber.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: businessConfig.seo.title,
   description: businessConfig.seo.description,
   keywords: businessConfig.seo.keywords,
@@ -31,15 +40,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: businessConfig.seo.title,
     description: businessConfig.seo.description,
-    type: "website",
-    locale: "es_MX",
+    url: "/",
     siteName: businessConfig.name,
+    locale: "es_MX",
+    type: "website",
     images: [
       {
         url: businessConfig.seo.ogImage,
         width: 1200,
         height: 630,
         alt: businessConfig.name,
+        type: "image/jpeg",
       },
     ],
   },
@@ -52,6 +63,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: "/assets/Media2.png",
+    shortcut: "/assets/Media2.png",
+    apple: "/assets/og-image.jpg",
   },
 };
 
@@ -112,6 +128,7 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#0B0B0B" />
         <link rel="icon" href="/assets/Media2.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/assets/og-image.jpg" />
       </head>
       <body className="bg-black text-cream antialiased">
         <ThemeProvider>
