@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { businessConfig } from "@/config/business";
 import { MerchCategory, MerchItem } from "@/types";
-import { getWhatsAppUrl } from "@/components/ui/WhatsAppButton";
+import { getWhatsAppUrl, getMerchWhatsAppUrl } from "@/components/ui/WhatsAppButton";
 import { useLanguage } from "@/context/LanguageContext";
 import { ProductMockup } from "@/components/ui/ProductMockup";
 
@@ -85,8 +85,13 @@ export function Merch() {
           {filteredItems.map((item, index) => {
             const itemT = t.merch.items[item.id as keyof typeof t.merch.items];
             const price = lang === "es" ? item.priceMxn : item.priceUsd;
-            const waOrderMsg = `Hola, Gallo Fino Barber. Me interesa comprar el producto: ${itemT?.name} (${price}). ¿Tienen disponibilidad?`;
-            const waUrl = getWhatsAppUrl(waOrderMsg, businessConfig.whatsapp);
+            const waUrl = getMerchWhatsAppUrl(
+              item.id,
+              itemT?.name || item.id,
+              price,
+              itemT?.description || "",
+              item.image!
+            );
 
             return (
               <div
@@ -190,8 +195,13 @@ export function Merch() {
       {selectedProduct && (() => {
         const itemT = t.merch.items[selectedProduct.id as keyof typeof t.merch.items];
         const price = lang === "es" ? selectedProduct.priceMxn : selectedProduct.priceUsd;
-        const waOrderMsg = `Hola, Gallo Fino Barber. Me interesa comprar el producto: ${itemT?.name} (${price}). ¿Tienen disponibilidad?`;
-        const waUrl = getWhatsAppUrl(waOrderMsg, businessConfig.whatsapp);
+        const waUrl = getMerchWhatsAppUrl(
+          selectedProduct.id,
+          itemT?.name || selectedProduct.id,
+          price,
+          itemT?.description || "",
+          selectedProduct.image!
+        );
 
         return (
           <div

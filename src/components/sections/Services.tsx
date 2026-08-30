@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { businessConfig } from "@/config/business";
-import { getWhatsAppUrl } from "@/components/ui/WhatsAppButton";
+import { getWhatsAppUrl, getServiceWhatsAppUrl } from "@/components/ui/WhatsAppButton";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Services() {
@@ -50,7 +50,14 @@ export function Services() {
         {(() => {
           const featured = businessConfig.services.find(s => s.id === "gallo-de-oro")!;
           const itemT = t.services.items["gallo-de-oro"];
-          const waUrl = getWhatsAppUrl(`Hola, Gallo Fino Barber. Quiero agendar el ${itemT.name}.`, businessConfig.whatsapp);
+          const waUrl = getServiceWhatsAppUrl(
+            featured.id,
+            itemT.name,
+            itemT.price,
+            featured.duration,
+            itemT.description,
+            featured.image!
+          );
           return (
             <div
               className={`relative overflow-hidden mb-6 border border-gold/30 group transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
@@ -103,7 +110,14 @@ export function Services() {
             .filter(s => s.id !== "gallo-de-oro")
             .map((service, index) => {
               const itemT = t.services.items[service.id as keyof typeof t.services.items];
-              const waUrl = getWhatsAppUrl(`Hola, Gallo Fino Barber. Quiero agendar un ${itemT.name}.`, businessConfig.whatsapp);
+              const waUrl = getServiceWhatsAppUrl(
+                service.id,
+                itemT.name,
+                itemT.price,
+                service.duration,
+                itemT.description,
+                service.image!
+              );
               return (
                 <div
                   key={service.id}

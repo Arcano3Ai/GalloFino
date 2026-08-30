@@ -2,16 +2,82 @@
 
 import { businessConfig } from "@/config/business";
 
+const RAW_GITHUB_BASE = "https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public";
+const SITE_BASE = "https://gallo-fino-barber.vercel.app";
+
+export function getWhatsAppUrl(text: string, phone: string = businessConfig.whatsapp): string {
+  const cleanPhone = phone.replace(/[^0-9]/g, "");
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+}
+
+export function getServiceWhatsAppUrl(
+  serviceId: string,
+  serviceName: string,
+  price: string,
+  duration: string,
+  description: string,
+  imageRelativePath: string
+): string {
+  const imageUrl = imageRelativePath.startsWith("http")
+    ? imageRelativePath
+    : `${RAW_GITHUB_BASE}${imageRelativePath}`;
+
+  const shareLink = `${SITE_BASE}/servicios/${serviceId}`;
+
+  const message = [
+    `💈 *GALLO FINO BARBER* 💈`,
+    `✂ *Servicio:* ${serviceName}`,
+    `💰 *Precio:* ${price} | ⏱ *Duración:* ${duration}`,
+    ``,
+    `📝 *Descripción:*`,
+    `${description}`,
+    ``,
+    `📸 *Imagen del servicio:*`,
+    `${imageUrl}`,
+    ``,
+    `🌐 *Ver y agendar online:*`,
+    `${shareLink}`,
+  ].join("\n");
+
+  return getWhatsAppUrl(message);
+}
+
+export function getMerchWhatsAppUrl(
+  itemId: string,
+  itemName: string,
+  price: string,
+  description: string,
+  imageRelativePath: string
+): string {
+  const imageUrl = imageRelativePath.startsWith("http")
+    ? imageRelativePath
+    : `${RAW_GITHUB_BASE}${imageRelativePath}`;
+
+  const shareLink = `${SITE_BASE}/tienda/${itemId}`;
+
+  const message = [
+    `💈 *GALLO FINO BARBER — MERCH OFICIAL* 💈`,
+    `🧢 *Producto:* ${itemName}`,
+    `💰 *Precio:* ${price}`,
+    ``,
+    `📝 *Detalles del producto:*`,
+    `${description}`,
+    ``,
+    `📸 *Imagen del producto:*`,
+    `${imageUrl}`,
+    ``,
+    `🌐 *Ver producto en tienda:*`,
+    `${shareLink}`,
+  ].join("\n");
+
+  return getWhatsAppUrl(message);
+}
+
 interface WhatsAppButtonProps {
   message?: string;
   className?: string;
   variant?: "floating" | "inline" | "full";
   label?: string;
-}
-
-export function getWhatsAppUrl(message: string, phone: string): string {
-  const encoded = encodeURIComponent(message);
-  return `https://wa.me/${phone}?text=${encoded}`;
 }
 
 /* Lucide Barber Scissors Icon SVG (Clean & 100% Accurate) */

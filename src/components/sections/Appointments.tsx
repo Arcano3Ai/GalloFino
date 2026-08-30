@@ -76,7 +76,25 @@ function ConfirmationView({
   appointment: Appointment;
   onReset: () => void;
 }) {
-  const waMsg = `Hola, Gallo Fino Barber. Quiero confirmar mi cita para ${appointment.serviceName} con ${appointment.barberName} el ${formatDate(appointment.date)} a las ${appointment.time}. Mi nombre es ${appointment.clientName}.`;
+  const serviceObj = businessConfig.services.find(s => s.id === appointment.serviceId);
+  const serviceImg = serviceObj?.image
+    ? `https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public${serviceObj.image}`
+    : "https://raw.githubusercontent.com/Arcano3Ai/GalloFino/main/public/assets/logo.jpeg";
+
+  const waMsg = [
+    `💈 *GALLO FINO BARBER — CONFIRMACIÓN DE CITA* 💈`,
+    `✂ *Servicio:* ${appointment.serviceName}`,
+    `👤 *Cliente:* ${appointment.clientName}`,
+    `💈 *Barbero:* ${appointment.barberName}`,
+    `📅 *Fecha:* ${formatDate(appointment.date)}`,
+    `⏰ *Hora:* ${appointment.time}`,
+    ``,
+    `📸 *Imagen del servicio:*`,
+    `${serviceImg}`,
+    ``,
+    `🌐 *Ver servicio en web:*`,
+    `https://gallo-fino-barber.vercel.app/servicios/${appointment.serviceId}`
+  ].join("\n");
   const waUrl = getWhatsAppUrl(waMsg, businessConfig.whatsapp);
 
   const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cita+Gallo+Fino+Barber+-+${encodeURIComponent(appointment.serviceName)}&dates=${appointment.date.replace(/-/g, "")}T${appointment.time.replace(":", "")}00/${appointment.date.replace(/-/g, "")}T${appointment.time.replace(":", "")}00&details=Barbero:+${encodeURIComponent(appointment.barberName)}&location=${encodeURIComponent(businessConfig.address + ", " + businessConfig.city)}`;
